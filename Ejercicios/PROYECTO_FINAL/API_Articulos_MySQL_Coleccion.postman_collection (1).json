@@ -1,0 +1,128 @@
+{
+  "info": {
+    "name": "API Articulos MySQL - CRUD",
+    "_postman_id": "abcd1234-5678-90ef-ghij-klmnopqrstuv",
+    "description": "Colecci\u00f3n de endpoints actualizados para la API de art\u00edculos conectada a base de datos MySQL",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "GET - Listar todos los art\u00edculos",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/articulos",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "articulos"
+          ]
+        }
+      }
+    },
+    {
+      "name": "GET - Obtener art\u00edculo por ID",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/articulos/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "articulos",
+            "1"
+          ]
+        }
+      }
+    },
+    {
+      "name": "POST - Crear nuevo art\u00edculo",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nombre\": \"Cuaderno\",\n  \"precio\": 550.0\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/articulos",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "articulos"
+          ]
+        }
+      }
+    },
+    {
+      "name": "PUT - Actualizar art\u00edculo",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nombre\": \"Cuaderno grande\",\n  \"precio\": 650.0\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/articulos/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "articulos",
+            "1"
+          ]
+        }
+      }
+    },
+    {
+      "name": "DELETE - Eliminar art\u00edculo",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/articulos/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "articulos",
+            "1"
+          ]
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,537 @@
+# <!DOCTYPE html>
+# <html lang="es">
+# <head>
+#     <meta charset="UTF-8">
+#     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+#     <title>Gestión de Clientes - CarritoTech</title>
+#     <!-- Bootstrap 5.0 CSS -->
+#     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+#     <!-- Bootstrap Icons -->
+#     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+#     <!-- Custom CSS -->
+#     <link href="css/styles.css" rel="stylesheet">
+# </head>
+# <body>
+#     <!-- Header -->
+#     <header class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+#         <div class="container">
+#             <a class="navbar-brand fw-bold" href="index.html">
+#                 <i class="bi bi-cart3"></i> CarritoTech
+#             </a>
+            
+#             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+#                 <span class="navbar-toggler-icon"></span>
+#             </button>
+            
+#             <div class="collapse navbar-collapse" id="navbarNav">
+#                 <ul class="navbar-nav me-auto">
+#                     <li class="nav-item">
+#                         <a class="nav-link" href="index.html">
+#                             <i class="bi bi-house"></i> Inicio
+#                         </a>
+#                     </li>
+#                     <li class="nav-item">
+#                         <a class="nav-link" href="productos.html">
+#                             <i class="bi bi-grid"></i> Productos
+#                         </a>
+#                     </li>
+#                     <li class="nav-item">
+#                         <a class="nav-link active" href="clientes.html">
+#                             <i class="bi bi-people"></i> Clientes
+#                         </a>
+#                     </li>
+#                     <li class="nav-item">
+#                         <a class="nav-link" href="admin.html">
+#                             <i class="bi bi-gear"></i> Admin
+#                         </a>
+#                     </li>
+#                 </ul>
+                
+#                 <div class="d-flex align-items-center">
+#                     <a href="carrito.html" class="btn btn-outline-light position-relative me-3">
+#                         <i class="bi bi-cart2"></i> Carrito
+#                         <span id="cart-count" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+#                             0
+#                         </span>
+#                     </a>
+                    
+#                     <div class="dropdown">
+#                         <button class="btn btn-outline-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
+#                             <i class="bi bi-person"></i> Cliente
+#                         </button>
+#                         <ul class="dropdown-menu dropdown-menu-end">
+#                             <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">Iniciar Sesión</a></li>
+#                             <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#registerModal">Registrarse</a></li>
+#                             <li><hr class="dropdown-divider"></li>
+#                             <li><a class="dropdown-item" href="#" id="logout-btn" style="display: none;">Cerrar Sesión</a></li>
+#                         </ul>
+#                     </div>
+#                 </div>
+#             </div>
+#         </div>
+#     </header>
+
+#     <!-- Main Content -->
+#     <main class="py-4">
+#         <div class="container">
+#             <!-- Encabezado de la página -->
+#             <div class="row mb-4">
+#                 <div class="col-12">
+#                     <h1 class="display-5 fw-bold text-center mb-4">Gestión de Clientes</h1>
+#                     <p class="lead text-center text-muted">Administra la información de los clientes</p>
+#                 </div>
+#             </div>
+
+#             <!-- Contenedor de alertas -->
+#             <div id="alert-container"></div>
+
+#             <!-- Barra de herramientas -->
+#             <div class="row mb-4">
+#                 <div class="col-md-8">
+#                     <div class="input-group">
+#                         <input type="text" class="form-control" id="searchClientes" placeholder="Buscar por nombre, email o DNI...">
+#                         <button class="btn btn-outline-secondary" type="button" id="searchBtn">
+#                             <i class="bi bi-search"></i>
+#                         </button>
+#                     </div>
+#                 </div>
+#                 <div class="col-md-4 text-end">
+#                     <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#clienteModal">
+#                         <i class="bi bi-plus-circle"></i> Nuevo Cliente
+#                     </button>
+#                 </div>
+#             </div>
+
+#             <!-- Tabla de clientes -->
+#             <div class="row">
+#                 <div class="col-12">
+#                     <div class="card">
+#                         <div class="card-header">
+#                             <h5 class="mb-0">
+#                                 <i class="bi bi-people"></i> Lista de Clientes
+#                             </h5>
+#                         </div>
+#                         <div class="card-body">
+#                             <div class="table-responsive">
+#                                 <table class="table table-striped table-hover">
+#                                     <thead>
+#                                         <tr>
+#                                             <th>ID</th>
+#                                             <th>Nombre</th>
+#                                             <th>Email</th>
+#                                             <th>DNI</th>
+#                                             <th>Teléfono</th>
+#                                             <th>Dirección</th>
+#                                             <th>Acciones</th>
+#                                         </tr>
+#                                     </thead>
+#                                     <tbody id="clientes-table-body">
+#                                         <tr>
+#                                             <td colspan="7" class="text-center py-4">
+#                                                 <div class="spinner-border text-dark" role="status">
+#                                                     <span class="visually-hidden">Cargando clientes...</span>
+#                                                 </div>
+#                                                 <p class="mt-2 mb-0">Cargando clientes...</p>
+#                                             </td>
+#                                         </tr>
+#                                     </tbody>
+#                                 </table>
+#                             </div>
+#                         </div>
+#                     </div>
+#                 </div>
+#             </div>
+#         </div>
+#     </main>
+
+#     <!-- Footer -->
+#     <footer class="bg-dark text-white py-4">
+#         <div class="container">
+#             <div class="row">
+#                 <div class="col-md-6">
+#                     <h5><i class="bi bi-cart3"></i> CarritoTech</h5>
+#                     <p class="text-muted">Tu tienda de tecnología de confianza.</p>
+#                 </div>
+#                 <div class="col-md-6 text-md-end">
+#                     <p class="text-muted mb-0">
+#                         &copy; 2024 CarritoTech - Talento Tech. Todos los derechos reservados.
+#                     </p>
+#                 </div>
+#             </div>
+#         </div>
+#     </footer>
+
+#     <!-- Modal de Cliente -->
+#     <div class="modal fade" id="clienteModal" tabindex="-1">
+#         <div class="modal-dialog modal-lg">
+#             <div class="modal-content">
+#                 <div class="modal-header">
+#                     <h5 class="modal-title" id="clienteModalTitle">Nuevo Cliente</h5>
+#                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+#                 </div>
+#                 <div class="modal-body">
+#                     <form id="clienteForm">
+#                         <input type="hidden" id="clienteId">
+#                         <div class="row">
+#                             <div class="col-md-6 mb-3">
+#                                 <label for="clienteNombre" class="form-label">Nombre *</label>
+#                                 <input type="text" class="form-control" id="clienteNombre" required>
+#                             </div>
+#                             <div class="col-md-6 mb-3">
+#                                 <label for="clienteApellido" class="form-label">Apellido *</label>
+#                                 <input type="text" class="form-control" id="clienteApellido" required>
+#                             </div>
+#                         </div>
+#                         <div class="mb-3">
+#                             <label for="clienteEmail" class="form-label">Email *</label>
+#                             <input type="email" class="form-control" id="clienteEmail" required>
+#                         </div>
+#                         <div class="row">
+#                             <div class="col-md-6 mb-3">
+#                                 <label for="clienteDni" class="form-label">DNI *</label>
+#                                 <input type="text" class="form-control" id="clienteDni" required>
+#                             </div>
+#                             <div class="col-md-6 mb-3">
+#                                 <label for="clienteTelefono" class="form-label">Teléfono</label>
+#                                 <input type="tel" class="form-control" id="clienteTelefono">
+#                             </div>
+#                         </div>
+#                         <div class="mb-3">
+#                             <label for="clienteDireccion" class="form-label">Dirección</label>
+#                             <textarea class="form-control" id="clienteDireccion" rows="3"></textarea>
+#                         </div>
+#                     </form>
+#                 </div>
+#                 <div class="modal-footer">
+#                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+#                     <button type="button" class="btn btn-dark" id="guardarClienteBtn">Guardar Cliente</button>
+#                 </div>
+#             </div>
+#         </div>
+#     </div>
+
+#     <!-- Modal de Confirmación de Eliminación -->
+#     <div class="modal fade" id="confirmDeleteModal" tabindex="-1">
+#         <div class="modal-dialog">
+#             <div class="modal-content">
+#                 <div class="modal-header">
+#                     <h5 class="modal-title">Confirmar Eliminación</h5>
+#                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+#                 </div>
+#                 <div class="modal-body">
+#                     <p>¿Estás seguro de que deseas eliminar este cliente?</p>
+#                     <div class="alert alert-warning">
+#                         <i class="bi bi-exclamation-triangle"></i>
+#                         <strong>Advertencia:</strong> Esta acción no se puede deshacer.
+#                     </div>
+#                 </div>
+#                 <div class="modal-footer">
+#                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+#                     <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Eliminar</button>
+#                 </div>
+#             </div>
+#         </div>
+#     </div>
+
+#     <!-- Login Modal -->
+#     <div class="modal fade" id="loginModal" tabindex="-1">
+#         <div class="modal-dialog">
+#             <div class="modal-content">
+#                 <div class="modal-header">
+#                     <h5 class="modal-title">Iniciar Sesión</h5>
+#                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+#                 </div>
+#                 <div class="modal-body">
+#                     <form id="loginForm">
+#                         <div class="mb-3">
+#                             <label for="loginEmail" class="form-label">Email</label>
+#                             <input type="email" class="form-control" id="loginEmail" required>
+#                         </div>
+#                     </form>
+#                 </div>
+#                 <div class="modal-footer">
+#                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+#                     <button type="button" class="btn btn-dark" id="loginBtn">Iniciar Sesión</button>
+#                 </div>
+#             </div>
+#         </div>
+#     </div>
+
+#     <!-- Register Modal -->
+#     <div class="modal fade" id="registerModal" tabindex="-1">
+#         <div class="modal-dialog">
+#             <div class="modal-content">
+#                 <div class="modal-header">
+#                     <h5 class="modal-title">Registrarse</h5>
+#                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+#                 </div>
+#                 <div class="modal-body">
+#                     <form id="registerForm">
+#                         <div class="row">
+#                             <div class="col-md-6 mb-3">
+#                                 <label for="registerNombre" class="form-label">Nombre</label>
+#                                 <input type="text" class="form-control" id="registerNombre" required>
+#                             </div>
+#                             <div class="col-md-6 mb-3">
+#                                 <label for="registerApellido" class="form-label">Apellido</label>
+#                                 <input type="text" class="form-control" id="registerApellido" required>
+#                             </div>
+#                         </div>
+#                         <div class="mb-3">
+#                             <label for="registerEmail" class="form-label">Email</label>
+#                             <input type="email" class="form-control" id="registerEmail" required>
+#                         </div>
+#                         <div class="mb-3">
+#                             <label for="registerDni" class="form-label">DNI</label>
+#                             <input type="text" class="form-control" id="registerDni" required>
+#                         </div>
+#                         <div class="mb-3">
+#                             <label for="registerTelefono" class="form-label">Teléfono</label>
+#                             <input type="tel" class="form-control" id="registerTelefono">
+#                         </div>
+#                         <div class="mb-3">
+#                             <label for="registerDireccion" class="form-label">Dirección</label>
+#                             <textarea class="form-control" id="registerDireccion" rows="2"></textarea>
+#                         </div>
+#                     </form>
+#                 </div>
+#                 <div class="modal-footer">
+#                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+#                     <button type="button" class="btn btn-dark" id="registerBtn">Registrarse</button>
+#                 </div>
+#             </div>
+#         </div>
+#     </div>
+
+#     <!-- Bootstrap 5.0 JS -->
+#     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+#     <!-- Custom JS -->
+#     <script src="js/api.js"></script>
+#     <script src="js/app.js"></script>
+#     <script src="js/auth.js"></script>
+    
+#     <script>
+#         // Variables globales
+#         let clientes = [];
+#         let clienteToDelete = null;
+
+#         // Inicializar página de clientes
+#         document.addEventListener('DOMContentLoaded', function() {
+#             cargarClientes();
+#             configurarEventListeners();
+#         });
+
+#         // Configurar event listeners
+#         function configurarEventListeners() {
+#             // Buscar clientes
+#             document.getElementById('searchBtn').addEventListener('click', buscarClientes);
+#             document.getElementById('searchClientes').addEventListener('keypress', function(e) {
+#                 if (e.key === 'Enter') {
+#                     buscarClientes();
+#                 }
+#             });
+
+#             // Guardar cliente
+#             document.getElementById('guardarClienteBtn').addEventListener('click', guardarCliente);
+
+#             // Confirmar eliminación
+#             document.getElementById('confirmDeleteBtn').addEventListener('click', function() {
+#                 if (clienteToDelete) {
+#                     eliminarCliente(clienteToDelete);
+#                 }
+#             });
+
+#             // Limpiar formulario al abrir modal
+#             document.getElementById('clienteModal').addEventListener('shown.bs.modal', function() {
+#                 document.getElementById('clienteNombre').focus();
+#             });
+
+#             // Limpiar formulario al cerrar modal
+#             document.getElementById('clienteModal').addEventListener('hidden.bs.modal', function() {
+#                 limpiarFormulario();
+#             });
+#         }
+
+#         // Cargar todos los clientes
+#         async function cargarClientes() {
+#             try {
+#                 API.utils.showLoading();
+#                 clientes = await API.clientes.obtenerTodos();
+#                 renderizarClientes(clientes);
+#             } catch (error) {
+#                 console.error('Error al cargar clientes:', error);
+#                 API.utils.showAlert('Error al cargar clientes', 'danger');
+#             } finally {
+#                 API.utils.hideLoading();
+#             }
+#         }
+
+#         // Renderizar clientes en la tabla
+#         function renderizarClientes(clientesArray) {
+#             const tbody = document.getElementById('clientes-table-body');
+            
+#             if (clientesArray.length === 0) {
+#                 tbody.innerHTML = '<tr><td colspan="7" class="text-center py-4">No se encontraron clientes</td></tr>';
+#                 return;
+#             }
+
+#             tbody.innerHTML = clientesArray.map(cliente => `
+#                 <tr>
+#                     <td>${cliente.id}</td>
+#                     <td>${cliente.nombre} ${cliente.apellido}</td>
+#                     <td>${cliente.email}</td>
+#                     <td>${cliente.dni}</td>
+#                     <td>${cliente.telefono || 'N/A'}</td>
+#                     <td>${cliente.direccion || 'N/A'}</td>
+#                     <td>
+#                         <button class="btn btn-sm btn-outline-primary me-1" onclick="editarCliente(${cliente.id})">
+#                             <i class="bi bi-pencil"></i>
+#                         </button>
+#                         <button class="btn btn-sm btn-outline-danger" onclick="confirmarEliminacion(${cliente.id})">
+#                             <i class="bi bi-trash"></i>
+#                         </button>
+#                     </td>
+#                 </tr>
+#             `).join('');
+#         }
+
+#         // Buscar clientes
+#         async function buscarClientes() {
+#             const query = document.getElementById('searchClientes').value.trim();
+            
+#             if (!query) {
+#                 renderizarClientes(clientes);
+#                 return;
+#             }
+
+#             const clientesFiltrados = clientes.filter(cliente =>
+#                 cliente.nombre.toLowerCase().includes(query.toLowerCase()) ||
+#                 cliente.apellido.toLowerCase().includes(query.toLowerCase()) ||
+#                 cliente.email.toLowerCase().includes(query.toLowerCase()) ||
+#                 cliente.dni.includes(query)
+#             );
+
+#             renderizarClientes(clientesFiltrados);
+#         }
+
+#         // Guardar cliente (crear o actualizar)
+#         async function guardarCliente() {
+#             const clienteData = {
+#                 nombre: document.getElementById('clienteNombre').value.trim(),
+#                 apellido: document.getElementById('clienteApellido').value.trim(),
+#                 email: document.getElementById('clienteEmail').value.trim(),
+#                 dni: document.getElementById('clienteDni').value.trim(),
+#                 telefono: document.getElementById('clienteTelefono').value.trim(),
+#                 direccion: document.getElementById('clienteDireccion').value.trim()
+#             };
+
+#             // Validaciones básicas
+#             if (!clienteData.nombre || !clienteData.apellido || !clienteData.email || !clienteData.dni) {
+#                 API.utils.showAlert('Por favor completa todos los campos obligatorios', 'warning');
+#                 return;
+#             }
+
+#             try {
+#                 API.utils.showLoading();
+#                 const clienteId = document.getElementById('clienteId').value;
+                
+#                 if (clienteId) {
+#                     // Actualizar cliente existente
+#                     await API.clientes.actualizar(clienteId, clienteData);
+#                     API.utils.showAlert('Cliente actualizado correctamente', 'success');
+#                 } else {
+#                     // Crear nuevo cliente
+#                     await API.clientes.crear(clienteData);
+#                     API.utils.showAlert('Cliente creado correctamente', 'success');
+#                 }
+
+#                 // Cerrar modal
+#                 const modal = bootstrap.Modal.getInstance(document.getElementById('clienteModal'));
+#                 modal.hide();
+
+#                 // Recargar clientes
+#                 await cargarClientes();
+
+#             } catch (error) {
+#                 console.error('Error al guardar cliente:', error);
+#                 API.utils.showAlert('Error al guardar cliente: ' + error.message, 'danger');
+#             } finally {
+#                 API.utils.hideLoading();
+#             }
+#         }
+
+#         // Editar cliente
+#         async function editarCliente(id) {
+#             try {
+#                 API.utils.showLoading();
+#                 const cliente = await API.clientes.obtenerPorId(id);
+                
+#                 // Llenar formulario
+#                 document.getElementById('clienteId').value = cliente.id;
+#                 document.getElementById('clienteNombre').value = cliente.nombre;
+#                 document.getElementById('clienteApellido').value = cliente.apellido;
+#                 document.getElementById('clienteEmail').value = cliente.email;
+#                 document.getElementById('clienteDni').value = cliente.dni;
+#                 document.getElementById('clienteTelefono').value = cliente.telefono || '';
+#                 document.getElementById('clienteDireccion').value = cliente.direccion || '';
+
+#                 // Cambiar título del modal
+#                 document.getElementById('clienteModalTitle').textContent = 'Editar Cliente';
+
+#                 // Mostrar modal
+#                 const modal = new bootstrap.Modal(document.getElementById('clienteModal'));
+#                 modal.show();
+
+#             } catch (error) {
+#                 console.error('Error al cargar cliente:', error);
+#                 API.utils.showAlert('Error al cargar cliente', 'danger');
+#             } finally {
+#                 API.utils.hideLoading();
+#             }
+#         }
+
+#         // Confirmar eliminación
+#         function confirmarEliminacion(id) {
+#             clienteToDelete = id;
+#             const modal = new bootstrap.Modal(document.getElementById('confirmDeleteModal'));
+#             modal.show();
+#         }
+
+#         // Eliminar cliente
+#         async function eliminarCliente(id) {
+#             try {
+#                 API.utils.showLoading();
+#                 await API.clientes.eliminar(id);
+                
+#                 // Cerrar modal
+#                 const modal = bootstrap.Modal.getInstance(document.getElementById('confirmDeleteModal'));
+#                 modal.hide();
+                
+#                 API.utils.showAlert('Cliente eliminado correctamente', 'success');
+                
+#                 // Recargar clientes
+#                 await cargarClientes();
+                
+#             } catch (error) {
+#                 console.error('Error al eliminar cliente:', error);
+#                 API.utils.showAlert('Error al eliminar cliente: ' + error.message, 'danger');
+#             } finally {
+#                 API.utils.hideLoading();
+#                 clienteToDelete = null;
+#             }
+#         }
+
+#         // Limpiar formulario
+#         function limpiarFormulario() {
+#             document.getElementById('clienteForm').reset();
+#             document.getElementById('clienteId').value = '';
+#             document.getElementById('clienteModalTitle').textContent = 'Nuevo Cliente';
+#         }
+
+#         // Hacer funciones disponibles globalmente
+#         window.editarCliente = editarCliente;
+#         window.confirmarEliminacion = confirmarEliminacion;
+#     </script>
+# </body>
+# </html> 
+

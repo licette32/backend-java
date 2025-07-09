@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<!-- 
+================================================================
+ARCHIVO: index.html
+DESCRIPCIÓN: Página principal de la aplicación CarritoTech
+Es la primera página que ve el usuario al acceder a la aplicación
+================================================================
+-->
+
+<!-- Declaración HTML5 - Define el tipo de documento -->
+<!-- lang="es" especifica que el contenido está en español -->
+<html lang="es">
+
+<!-- CABECERA DEL DOCUMENTO (HEAD) -->
+<!-- Contiene metadatos, enlaces a CSS y JavaScript -->
+<head>
+    <!-- Codificación de caracteres UTF-8 para soportar caracteres especiales -->
+    <meta charset="UTF-8">
+    
+    <!-- Configuración del viewport para diseño responsivo -->
+    <!-- width=device-width hace que el ancho se ajuste al dispositivo -->
+    <!-- initial-scale=1.0 establece el zoom inicial -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Título que aparece en la pestaña del navegador -->
+    <title>Carrito de Compras - Talento Tech</title>
+    
+    <!-- Enlace al CSS de Bootstrap 5.0 desde CDN -->
+    <!-- Bootstrap proporciona estilos predefinidos y responsivos -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Enlace a los iconos de Bootstrap -->
+    <!-- Proporciona iconos vectoriales para usar en la interfaz -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+    
+    <!-- Enlace a nuestro archivo CSS personalizado -->
+    <!-- Aquí definimos estilos específicos para nuestra aplicación -->
+    <link href="css/styles.css" rel="stylesheet">
+</head>
+
+<!-- CUERPO DEL DOCUMENTO (BODY) -->
+<!-- Contiene todo el contenido visible de la página -->
+<body>
+    <!-- ================================================================
+         ENCABEZADO DE LA PÁGINA (HEADER)
+         ================================================================ -->
+    
+    <!-- Elemento header que contiene la navegación principal -->
+    <!-- navbar: clase de Bootstrap para barras de navegación -->
+    <!-- navbar-expand-lg: hace que la navbar se expanda en pantallas grandes -->
+    <!-- navbar-dark: tema oscuro para la navbar -->
+    <!-- bg-dark: fondo oscuro -->
+    <!-- sticky-top: mantiene la navbar fija en la parte superior -->
+    <header class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+        <!-- Container de Bootstrap para centrar y limitar el ancho -->
+        <div class="container">
+            <!-- Marca/Logo de la aplicación -->
+            <!-- fw-bold: clase de Bootstrap para texto en negrita -->
+            <a class="navbar-brand fw-bold" href="index.html">
+                <!-- Icono de carrito de Bootstrap Icons -->
+                <i class="bi bi-cart3"></i> CarritoTech
+            </a>
+            
+            <!-- Botón hamburguesa para navegación en dispositivos móviles -->
+            <!-- Solo se muestra en pantallas pequeñas -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <!-- Contenedor colapsable de la navegación -->
+            <!-- Se oculta en pantallas pequeñas y se muestra con el botón hamburguesa -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <!-- Lista de navegación principal -->
+                <!-- me-auto: margen automático a la derecha (empuja el contenido hacia la izquierda) -->
+                <ul class="navbar-nav me-auto">
+                    <!-- Elemento de navegación - Inicio -->
+                    <li class="nav-item">
+                        <!-- active: clase que indica la página actual -->
+                        <a class="nav-link active" href="index.html">
+                            <i class="bi bi-house"></i> Inicio
+                        </a>
+                    </li>
+                    
+                    <!-- Elemento de navegación - Productos -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="productos.html">
+                            <i class="bi bi-grid"></i> Productos
+                        </a>
+                    </li>
+                    
+                    <!-- Elemento de navegación - Clientes -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="clientes.html">
+                            <i class="bi bi-people"></i> Clientes
+                        </a>
+                    </li>
+                    
+                    <!-- Elemento de navegación - Admin -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="admin.html">
+                            <i class="bi bi-gear"></i> Admin
+                        </a>
+                    </li>
+                </ul>
+                
+                <!-- Sección derecha de la navegación -->
+                <!-- d-flex: hace que el contenedor sea flexible -->
+                <!-- align-items-center: centra verticalmente los elementos -->
+                <div class="d-flex align-items-center">
+                    <!-- Botón del carrito con contador -->
+                    <!-- btn-outline-light: botón con borde blanco -->
+                    <!-- position-relative: posicionamiento relativo para el badge -->
+                    <!-- me-3: margen derecho de 3 unidades -->
+                    <a href="carrito.html" class="btn btn-outline-light position-relative me-3">
+                        <i class="bi bi-cart2"></i> Carrito
+                        
+                        <!-- Badge con contador de items del carrito -->
+                        <!-- position-absolute: posicionamiento absoluto -->
+                        <!-- top-0 start-100: posición en la esquina superior derecha -->
+                        <!-- translate-middle: centra el badge -->
+                        <!-- badge rounded-pill: estilo de badge redondeado -->
+                        <!-- bg-danger: fondo rojo -->
+                        <span id="cart-count" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            0
+                        </span>
+                    </a>
+                    
+                    <!-- Menú dropdown para autenticación -->
+                    <div class="dropdown">
+                        <!-- Botón que activa el dropdown -->
+                        <button class="btn btn-outline-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                            <i class="bi bi-person"></i> Cliente
+                        </button>
+                        
+                        <!-- Menú dropdown -->
+                        <!-- dropdown-menu-end: alinea el menú a la derecha -->
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <!-- Opción para iniciar sesión -->
+                            <!-- data-bs-toggle="modal" y data-bs-target="#loginModal": abre un modal -->
+                            <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">Iniciar Sesión</a></li>
+                            
+                            <!-- Opción para registrarse -->
+                            <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#registerModal">Registrarse</a></li>
+                            
+                            <!-- Separador visual -->
+                            <li><hr class="dropdown-divider"></li>
+                            
+                            <!-- Opción para cerrar sesión (inicialmente oculta) -->
+                            <li><a class="dropdown-item" href="#" id="logout-btn" style="display: none;">Cerrar Sesión</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ================================================================
+         CONTENIDO PRINCIPAL DE LA PÁGINA (MAIN)
+         ================================================================ -->
+    
+    <!-- Elemento main que contiene el contenido principal -->
+    <main>
+        <!-- Sección Hero (banner principal) -->
+        <!-- py-5: padding vertical de 5 unidades -->
+        <section class="hero-section bg-dark text-white py-5">
+            <div class="container">
+                <!-- Row de Bootstrap para crear columnas -->
+                <!-- align-items-center: centra verticalmente las columnas -->
+                <div class="row align-items-center">
+                    <!-- Columna izquierda con el texto principal -->
+                    <!-- col-lg-6: ocupa 6 columnas en pantallas grandes -->
+                    <div class="col-lg-6">
+                        <!-- Título principal -->
+                        <!-- display-4: clase de Bootstrap para títulos grandes -->
+                        <!-- fw-bold: texto en negrita -->
+                        <!-- mb-4: margen inferior de 4 unidades -->
+                        <h1 class="display-4 fw-bold mb-4">Bienvenido a CarritoTech</h1>
+                        
+                        <!-- Párrafo descriptivo -->
+                        <!-- lead: clase de Bootstrap para texto destacado -->
+                        <p class="lead mb-4">
+                            Tu tienda online de tecnología. Encuentra los mejores productos 
+                            con la mejor calidad y precios competitivos.
+                        </p>
+                        
+                        <!-- Contenedor para botones -->
+                        <!-- d-flex: flexbox -->
+                        <!-- gap-3: espaciado entre elementos -->
+                        <div class="d-flex gap-3">
+                            <!-- Botón principal -->
+                            <!-- btn-light: botón con fondo claro -->
+                            <!-- btn-lg: botón grande -->
+                            <a href="productos.html" class="btn btn-light btn-lg">
+                                <i class="bi bi-shop"></i> Ver Productos
+                            </a>
+                            
+                            <!-- Botón secundario -->
+                            <!-- btn-outline-light: botón con borde claro -->
+                            <a href="#features" class="btn btn-outline-light btn-lg">
+                                <i class="bi bi-info-circle"></i> Conocer Más
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Columna derecha con imagen -->
+                    <div class="col-lg-6">
+                        <!-- Imagen placeholder -->
+                        <!-- img-fluid: hace que la imagen sea responsiva -->
+                        <!-- rounded: bordes redondeados -->
+                        <img src="https://via.placeholder.com/500x400/6c757d/ffffff?text=CarritoTech" 
+                             alt="CarritoTech" class="img-fluid rounded">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección de características -->
+        <!-- id="features": permite navegación con anclas -->
+        <!-- bg-light: fondo claro -->
+        <section id="features" class="py-5 bg-light">
+            <div class="container">
+                <!-- Fila con título de la sección -->
+                <!-- text-center: centra el texto -->
+                <!-- mb-5: margen inferior de 5 unidades -->
+                <div class="row text-center mb-5">
+                    <div class="col-12">
+                        <!-- Título de la sección -->
+                        <h2 class="fw-bold text-dark">¿Por qué elegir CarritoTech?</h2>
+                        
+                        <!-- Subtítulo -->
+                        <!-- text-muted: texto en color gris -->
+                        <p class="text-muted">Ofrecemos la mejor experiencia de compra online</p>
+                    </div>
+                </div>
+                
+                <!-- Fila con las características -->
+                <!-- g-4: espaciado entre columnas -->
+                <div class="row g-4">
+                    <!-- Primera característica -->
+                    <div class="col-md-4">
+                        <!-- Tarjeta -->
+                        <!-- h-100: altura completa -->
+                        <!-- border-0: sin borde -->
+                        <!-- shadow-sm: sombra pequeña -->
+                        <div class="card h-100 border-0 shadow-sm">
+                            <!-- Cuerpo de la tarjeta -->
+                            <!-- p-4: padding de 4 unidades -->
+                            <div class="card-body text-center p-4">
+                                <!-- Contenedor del icono -->
+                                <div class="feature-icon mb-3">
+                                    <!-- Icono de envío -->
+                                    <!-- display-4: tamaño grande -->
+                                    <!-- text-dark: color oscuro -->
+                                    <i class="bi bi-truck display-4 text-dark"></i>
+                                </div>
+                                
+                                <!-- Título de la característica -->
+                                <h5 class="card-title">Envío Rápido</h5>
+                                
+                                <!-- Descripción -->
+                                <p class="card-text text-muted">
+                                    Entrega en 24-48 horas en toda la región metropolitana.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Segunda característica -->
+                    <div class="col-md-4">
+                        <div class="card h-100 border-0 shadow-sm">
+                            <div class="card-body text-center p-4">
+                                <div class="feature-icon mb-3">
+                                    <!-- Icono de seguridad -->
+                                    <i class="bi bi-shield-check display-4 text-dark"></i>
+                                </div>
+                                <h5 class="card-title">Compra Segura</h5>
+                                <p class="card-text text-muted">
+                                    Tus datos están protegidos con la mejor tecnología de seguridad.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Tercera característica -->
+                    <div class="col-md-4">
+                        <div class="card h-100 border-0 shadow-sm">
+                            <div class="card-body text-center p-4">
+                                <div class="feature-icon mb-3">
+                                    <!-- Icono de soporte -->
+                                    <i class="bi bi-headset display-4 text-dark"></i>
+                                </div>
+                                <h5 class="card-title">Soporte 24/7</h5>
+                                <p class="card-text text-muted">
+                                    Atención al cliente disponible todos los días del año.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección de estadísticas -->
+        <section class="py-5 bg-dark text-white">
+            <div class="container">
+                <!-- Fila con estadísticas -->
+                <div class="row text-center">
+                    <!-- Estadística 1: Productos -->
+                    <!-- mb-4: margen inferior en móviles -->
+                    <div class="col-md-3 mb-4">
+                        <div class="stat-item">
+                            <!-- Número de la estadística -->
+                            <!-- display-6: tamaño grande -->
+                            <!-- Este número se actualiza con JavaScript -->
+                            <h3 class="display-6 fw-bold" id="products-count">0</h3>
+                            
+                            <!-- Descripción de la estadística -->
+                            <p class="text-muted">Productos Disponibles</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Estadística 2: Clientes -->
+                    <div class="col-md-3 mb-4">
+                        <div class="stat-item">
+                            <!-- Este número se actualiza con JavaScript -->
+                            <h3 class="display-6 fw-bold" id="clients-count">0</h3>
+                            <p class="text-muted">Clientes Registrados</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Estadística 3: Pedidos -->
+                    <div class="col-md-3 mb-4">
+                        <div class="stat-item">
+                            <!-- Este número se actualiza con JavaScript -->
+                            <h3 class="display-6 fw-bold" id="orders-count">0</h3>
+                            <p class="text-muted">Pedidos Realizados</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Estadística 4: Satisfacción -->
+                    <div class="col-md-3 mb-4">
+                        <div class="stat-item">
+                            <!-- Número fijo -->
+                            <h3 class="display-6 fw-bold">99%</h3>
+                            <p class="text-muted">Satisfacción del Cliente</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ================================================================
+         PIE DE PÁGINA (FOOTER)
+         ================================================================ -->
+    
+    <!-- Pie de página -->
+    <!-- py-4: padding vertical de 4 unidades -->
+    <footer class="bg-dark text-white py-4">
+        <div class="container">
+            <div class="row">
+                <!-- Columna izquierda del footer -->
+                <div class="col-md-6">
+                    <!-- Título del footer -->
+                    <h5><i class="bi bi-cart3"></i> CarritoTech</h5>
+                    
+                    <!-- Descripción -->
+                    <p class="text-muted">Tu tienda de tecnología de confianza.</p>
+                </div>
+                
+                <!-- Columna derecha del footer -->
+                <!-- text-md-end: alinea el texto a la derecha en pantallas medianas y grandes -->
+                <div class="col-md-6 text-md-end">
+                    <!-- Información de copyright -->
+                    <p class="text-muted mb-0">
+                        &copy; 2024 CarritoTech. Todos los derechos reservados.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ================================================================
+         MODALES PARA AUTENTICACIÓN
+         ================================================================ -->
+    
+    <!-- Modal de Login -->
+    <!-- Los modales son ventanas emergentes que se superponen al contenido -->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <!-- Contenedor del modal -->
+        <div class="modal-dialog">
+            <!-- Contenido del modal -->
+            <div class="modal-content">
+                <!-- Encabezado del modal -->
+                <div class="modal-header">
+                    <!-- Título del modal -->
+                    <h5 class="modal-title" id="loginModalLabel">Iniciar Sesión</h5>
+                    
+                    <!-- Botón para cerrar el modal -->
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                
+                <!-- Cuerpo del modal -->
+                <div class="modal-body">
+                    <!-- Formulario de login -->
+                    <form id="loginForm">
+                        <!-- Campo de email -->
+                        <div class="mb-3">
+                            <label for="loginEmail" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="loginEmail" required>
+                        </div>
+                    </form>
+                </div>
+                
+                <!-- Pie del modal -->
+                <div class="modal-footer">
+                    <!-- Botón para cerrar -->
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    
+                    <!-- Botón para iniciar sesión -->
+                    <button type="button" class="btn btn-primary" id="loginBtn">Iniciar Sesión</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Registro -->
+    <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="registerModalLabel">Registrarse</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Formulario de registro -->
+                    <form id="registerForm">
+                        <!-- Campo de nombre -->
+                        <div class="mb-3">
+                            <label for="registerNombre" class="form-label">Nombre *</label>
+                            <input type="text" class="form-control" id="registerNombre" required>
+                        </div>
+                        
+                        <!-- Campo de apellido -->
+                        <div class="mb-3">
+                            <label for="registerApellido" class="form-label">Apellido *</label>
+                            <input type="text" class="form-control" id="registerApellido" required>
+                        </div>
+                        
+                        <!-- Campo de email -->
+                        <div class="mb-3">
+                            <label for="registerEmail" class="form-label">Email *</label>
+                            <input type="email" class="form-control" id="registerEmail" required>
+                        </div>
+                        
+                        <!-- Campo de DNI -->
+                        <div class="mb-3">
+                            <label for="registerDni" class="form-label">DNI *</label>
+                            <input type="text" class="form-control" id="registerDni" required>
+                        </div>
+                        
+                        <!-- Campo de teléfono -->
+                        <div class="mb-3">
+                            <label for="registerTelefono" class="form-label">Teléfono</label>
+                            <input type="tel" class="form-control" id="registerTelefono">
+                        </div>
+                        
+                        <!-- Campo de dirección -->
+                        <div class="mb-3">
+                            <label for="registerDireccion" class="form-label">Dirección</label>
+                            <input type="text" class="form-control" id="registerDireccion">
+                        </div>
+                        
+                        <!-- Nota sobre campos obligatorios -->
+                        <small class="text-muted">* Campos obligatorios</small>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="registerBtn">Registrarse</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contenedor para alertas -->
+    <!-- Aquí se muestran los mensajes de éxito, error, etc. -->
+    <div id="alert-container" class="position-fixed top-0 start-50 translate-middle-x" style="z-index: 1060; margin-top: 20px;"></div>
+
+    <!-- ================================================================
+         SCRIPTS DE JAVASCRIPT
+         ================================================================ -->
+    
+    <!-- Bootstrap JavaScript desde CDN -->
+    <!-- Necesario para que funcionen los componentes interactivos como modales, dropdowns, etc. -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Nuestro archivo JavaScript para API -->
+    <!-- Contiene todas las funciones para comunicarse con el backend -->
+    <script src="js/api.js"></script>
+    
+    <!-- Nuestro archivo JavaScript para autenticación -->
+    <!-- Maneja el login, registro y gestión de sesiones -->
+    <script src="js/auth.js"></script>
+    
+    <!-- Nuestro archivo JavaScript principal -->
+    <!-- Contiene la lógica principal de la aplicación -->
+    <script src="js/app.js"></script>
+</body>
+</html> 
+

@@ -1,0 +1,709 @@
+/*
+================================================================
+ARCHIVO: styles.css
+DESCRIPCIÓN: Archivo principal de estilos CSS para la aplicación
+Contiene todos los estilos personalizados para el carrito de compras
+================================================================
+*/
+
+/* ================================================================
+   VARIABLES CSS PERSONALIZADAS (CSS Custom Properties)
+   ================================================================ */
+
+/* Definimos variables CSS para mantener consistencia en colores */
+:root {
+    /* Color principal de la aplicación - Negro */
+    --primary-color: #000000;
+    
+    /* Color secundario - Gris oscuro */
+    --secondary-color: #343a40;
+    
+    /* Color de acento - Gris medio */
+    --accent-color: #6c757d;
+    
+    /* Color de fondo claro */
+    --light-color: #f8f9fa;
+    
+    /* Color blanco puro */
+    --white-color: #ffffff;
+    
+    /* Color para elementos de peligro/error */
+    --danger-color: #dc3545;
+    
+    /* Color para elementos de éxito */
+    --success-color: #28a745;
+    
+    /* Color para elementos de advertencia */
+    --warning-color: #ffc107;
+    
+    /* Color para elementos informativos */
+    --info-color: #17a2b8;
+}
+
+/* ================================================================
+   ESTILOS GENERALES DEL CUERPO Y ELEMENTOS BASE
+   ================================================================ */
+
+/* Estilos para el elemento body (todo el documento) */
+body {
+    /* Definimos la fuente principal con fallbacks */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    
+    /* Color de fondo usando nuestra variable CSS */
+    background-color: var(--light-color);
+    
+    /* Color del texto principal */
+    color: var(--secondary-color);
+    
+    /* Altura de línea para mejor legibilidad */
+    line-height: 1.6;
+}
+
+/* ================================================================
+   ESTILOS PARA LA BARRA DE NAVEGACIÓN
+   ================================================================ */
+
+/* Estilo para el logo/marca en la navegación */
+.navbar-brand {
+    /* Tamaño de fuente más grande para destacar */
+    font-size: 1.5rem;
+    
+    /* Peso de fuente en negrita */
+    font-weight: bold;
+}
+
+/* Estilos para los enlaces de navegación */
+.navbar-nav .nav-link {
+    /* Peso de fuente medio */
+    font-weight: 500;
+    
+    /* Transición suave para el cambio de color */
+    transition: color 0.3s ease;
+}
+
+/* Efecto hover para los enlaces de navegación */
+.navbar-nav .nav-link:hover {
+    /* Cambia el color al pasar el mouse - !important para sobreescribir Bootstrap */
+    color: var(--accent-color) !important;
+}
+
+/* ================================================================
+   ESTILOS PARA LA SECCIÓN HERO (BANNER PRINCIPAL)
+   ================================================================ */
+
+/* Contenedor principal de la sección hero */
+.hero-section {
+    /* Gradiente de fondo de negro a gris oscuro */
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    
+    /* Altura mínima de 60% del viewport */
+    min-height: 60vh;
+    
+    /* Flexbox para centrar contenido */
+    display: flex;
+    align-items: center;
+}
+
+/* Botones dentro de la sección hero */
+.hero-section .btn {
+    /* Peso de fuente en negrita */
+    font-weight: 600;
+    
+    /* Padding personalizado para botones más grandes */
+    padding: 12px 30px;
+    
+    /* Bordes redondeados tipo píldora */
+    border-radius: 50px;
+    
+    /* Transición suave para todos los efectos */
+    transition: all 0.3s ease;
+}
+
+/* Efecto hover para botones en hero section */
+.hero-section .btn:hover {
+    /* Mueve el botón hacia arriba para efecto de elevación */
+    transform: translateY(-2px);
+    
+    /* Sombra para simular elevación */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* ================================================================
+   ESTILOS PARA TARJETAS (CARDS)
+   ================================================================ */
+
+/* Estilo base para todas las tarjetas */
+.card {
+    /* Bordes redondeados */
+    border-radius: 10px;
+    
+    /* Transición suave para efectos de hover */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Efecto hover para tarjetas */
+.card:hover {
+    /* Eleva la tarjeta hacia arriba */
+    transform: translateY(-5px);
+    
+    /* Sombra más pronunciada para efecto de elevación */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Títulos de las tarjetas */
+.card-title {
+    /* Color del texto usando variable CSS */
+    color: var(--primary-color);
+    
+    /* Peso de fuente en negrita */
+    font-weight: 600;
+}
+
+/* ================================================================
+   ESTILOS ESPECÍFICOS PARA PRODUCTOS
+   ================================================================ */
+
+/* Tarjeta específica para productos */
+.product-card {
+    /* Borde sutil */
+    border: 1px solid #e0e0e0;
+    
+    /* Bordes redondeados */
+    border-radius: 10px;
+    
+    /* Oculta contenido que sobresale */
+    overflow: hidden;
+    
+    /* Transición suave para efectos */
+    transition: all 0.3s ease;
+}
+
+/* Efecto hover para tarjetas de productos */
+.product-card:hover {
+    /* Sombra elevada */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    
+    /* Elevación sutil */
+    transform: translateY(-3px);
+}
+
+/* Imagen del producto */
+.product-image {
+    /* Ancho completo del contenedor */
+    width: 100%;
+    
+    /* Altura fija para consistencia */
+    height: 200px;
+    
+    /* Ajuste de imagen para mantener proporción */
+    object-fit: cover;
+    
+    /* Color de fondo por defecto */
+    background-color: var(--light-color);
+}
+
+/* Precio del producto */
+.product-price {
+    /* Tamaño de fuente más grande */
+    font-size: 1.25rem;
+    
+    /* Texto en negrita */
+    font-weight: bold;
+    
+    /* Color destacado */
+    color: var(--primary-color);
+}
+
+/* Información de stock */
+.product-stock {
+    /* Tamaño de fuente más pequeño */
+    font-size: 0.875rem;
+    
+    /* Color gris para información secundaria */
+    color: var(--accent-color);
+}
+
+/* Estilo para stock bajo */
+.product-stock.low-stock {
+    /* Color rojo para alertar */
+    color: var(--danger-color);
+    
+    /* Texto en negrita para enfatizar */
+    font-weight: 600;
+}
+
+/* ================================================================
+   ESTILOS PARA EL CARRITO DE COMPRAS
+   ================================================================ */
+
+/* Elemento individual del carrito */
+.cart-item {
+    /* Borde sutil */
+    border: 1px solid #e0e0e0;
+    
+    /* Bordes redondeados */
+    border-radius: 8px;
+    
+    /* Espaciado interno */
+    padding: 15px;
+    
+    /* Margen inferior para separar items */
+    margin-bottom: 15px;
+    
+    /* Fondo blanco */
+    background-color: var(--white-color);
+}
+
+/* Imagen del producto en el carrito */
+.cart-item-image {
+    /* Ancho fijo */
+    width: 80px;
+    
+    /* Altura fija */
+    height: 80px;
+    
+    /* Ajuste de imagen */
+    object-fit: cover;
+    
+    /* Bordes redondeados */
+    border-radius: 5px;
+}
+
+/* Resumen del carrito */
+.cart-summary {
+    /* Fondo blanco */
+    background-color: var(--white-color);
+    
+    /* Borde sutil */
+    border: 1px solid #e0e0e0;
+    
+    /* Bordes redondeados */
+    border-radius: 10px;
+    
+    /* Espaciado interno */
+    padding: 20px;
+    
+    /* Sombra sutil */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Total del carrito */
+.cart-total {
+    /* Tamaño de fuente grande */
+    font-size: 1.5rem;
+    
+    /* Texto en negrita */
+    font-weight: bold;
+    
+    /* Color destacado */
+    color: var(--primary-color);
+    
+    /* Borde superior para separar */
+    border-top: 2px solid var(--accent-color);
+    
+    /* Espaciado superior */
+    padding-top: 15px;
+    
+    /* Margen superior */
+    margin-top: 15px;
+}
+
+/* ================================================================
+   ESTILOS PARA FORMULARIOS
+   ================================================================ */
+
+/* Campos de entrada de formularios */
+.form-control {
+    /* Bordes redondeados */
+    border-radius: 8px;
+    
+    /* Borde sutil */
+    border: 1px solid #d0d0d0;
+    
+    /* Espaciado interno */
+    padding: 10px 15px;
+    
+    /* Tamaño de fuente */
+    font-size: 0.95rem;
+    
+    /* Transición suave para efectos de foco */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Efecto focus para campos de formulario */
+.form-control:focus {
+    /* Cambia el color del borde al enfocar */
+    border-color: var(--accent-color);
+    
+    /* Sombra sutil para indicar foco */
+    box-shadow: 0 0 0 0.2rem rgba(108, 117, 125, 0.25);
+}
+
+/* Etiquetas de formulario */
+.form-label {
+    /* Texto en negrita */
+    font-weight: 600;
+    
+    /* Color del texto */
+    color: var(--secondary-color);
+    
+    /* Margen inferior */
+    margin-bottom: 5px;
+}
+
+/* ================================================================
+   ESTILOS PARA BOTONES
+   ================================================================ */
+
+/* Estilos base para todos los botones */
+.btn {
+    /* Bordes redondeados */
+    border-radius: 8px;
+    
+    /* Texto en negrita */
+    font-weight: 600;
+    
+    /* Espaciado interno */
+    padding: 10px 20px;
+    
+    /* Transición suave para efectos */
+    transition: all 0.3s ease;
+}
+
+/* Botón primario */
+.btn-primary {
+    /* Color de fondo */
+    background-color: var(--primary-color);
+    
+    /* Color del borde */
+    border-color: var(--primary-color);
+}
+
+/* Efecto hover para botón primario */
+.btn-primary:hover {
+    /* Cambia a color secundario */
+    background-color: var(--secondary-color);
+    
+    /* Cambia el borde también */
+    border-color: var(--secondary-color);
+}
+
+/* Botón secundario */
+.btn-secondary {
+    /* Color de fondo */
+    background-color: var(--accent-color);
+    
+    /* Color del borde */
+    border-color: var(--accent-color);
+}
+
+/* Efecto hover para botón secundario */
+.btn-secondary:hover {
+    /* Cambia a color secundario */
+    background-color: var(--secondary-color);
+    
+    /* Cambia el borde también */
+    border-color: var(--secondary-color);
+}
+
+/* Botón con borde (outline) */
+.btn-outline-dark {
+    /* Color del texto */
+    color: var(--primary-color);
+    
+    /* Color del borde */
+    border-color: var(--primary-color);
+}
+
+/* Efecto hover para botón outline */
+.btn-outline-dark:hover {
+    /* Fondo al hacer hover */
+    background-color: var(--primary-color);
+    
+    /* Mantiene el color del borde */
+    border-color: var(--primary-color);
+}
+
+/* ================================================================
+   ESTILOS PARA ALERTAS Y MENSAJES
+   ================================================================ */
+
+/* Contenedor de alertas */
+.alert {
+    /* Bordes redondeados */
+    border-radius: 8px;
+    
+    /* Espaciado interno */
+    padding: 15px;
+    
+    /* Margen inferior */
+    margin-bottom: 20px;
+    
+    /* Borde sutil */
+    border: 1px solid transparent;
+}
+
+/* Alerta de éxito */
+.alert-success {
+    /* Color de fondo */
+    background-color: #d4edda;
+    
+    /* Color del borde */
+    border-color: #c3e6cb;
+    
+    /* Color del texto */
+    color: #155724;
+}
+
+/* Alerta de error */
+.alert-danger {
+    /* Color de fondo */
+    background-color: #f8d7da;
+    
+    /* Color del borde */
+    border-color: #f5c6cb;
+    
+    /* Color del texto */
+    color: #721c24;
+}
+
+/* Alerta de advertencia */
+.alert-warning {
+    /* Color de fondo */
+    background-color: #fff3cd;
+    
+    /* Color del borde */
+    border-color: #ffeaa7;
+    
+    /* Color del texto */
+    color: #856404;
+}
+
+/* Alerta informativa */
+.alert-info {
+    /* Color de fondo */
+    background-color: #d1ecf1;
+    
+    /* Color del borde */
+    border-color: #bee5eb;
+    
+    /* Color del texto */
+    color: #0c5460;
+}
+
+/* ================================================================
+   ESTILOS PARA TABLAS
+   ================================================================ */
+
+/* Tabla básica */
+.table {
+    /* Ancho completo */
+    width: 100%;
+    
+    /* Espaciado entre celdas */
+    margin-bottom: 1rem;
+    
+    /* Color de fondo */
+    background-color: var(--white-color);
+}
+
+/* Encabezado de tabla */
+.table thead th {
+    /* Texto en negrita */
+    font-weight: 600;
+    
+    /* Color de fondo */
+    background-color: var(--light-color);
+    
+    /* Color del texto */
+    color: var(--secondary-color);
+    
+    /* Borde inferior */
+    border-bottom: 2px solid var(--accent-color);
+}
+
+/* Filas de tabla */
+.table tbody tr {
+    /* Transición suave para efectos */
+    transition: background-color 0.3s ease;
+}
+
+/* Efecto hover para filas */
+.table tbody tr:hover {
+    /* Color de fondo al pasar el mouse */
+    background-color: var(--light-color);
+}
+
+/* ================================================================
+   ESTILOS PARA ELEMENTOS DE CARGA (LOADING)
+   ================================================================ */
+
+/* Overlay de carga */
+.loading-overlay {
+    /* Posición fija para cubrir toda la pantalla */
+    position: fixed;
+    
+    /* Coordenadas para cubrir toda la ventana */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    
+    /* Fondo semi-transparente */
+    background-color: rgba(0, 0, 0, 0.5);
+    
+    /* Flexbox para centrar el spinner */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    /* Z-index alto para aparecer sobre todo */
+    z-index: 9999;
+}
+
+/* Spinner de carga */
+.loading-overlay .spinner-border {
+    /* Tamaño del spinner */
+    width: 3rem;
+    height: 3rem;
+    
+    /* Color del spinner */
+    color: var(--white-color);
+}
+
+/* ================================================================
+   ESTILOS RESPONSIVOS - MEDIA QUERIES
+   ================================================================ */
+
+/* Estilos para tablets y dispositivos medianos */
+@media (max-width: 768px) {
+    /* Reducir tamaño de fuente del hero */
+    .hero-section h1 {
+        font-size: 2rem;
+    }
+    
+    /* Reducir padding de botones */
+    .btn {
+        padding: 8px 16px;
+        font-size: 0.9rem;
+    }
+    
+    /* Ajustar cards para pantallas pequeñas */
+    .card {
+        margin-bottom: 1rem;
+    }
+    
+    /* Hacer imágenes de productos más pequeñas */
+    .product-image {
+        height: 150px;
+    }
+}
+
+/* Estilos para teléfonos móviles */
+@media (max-width: 576px) {
+    /* Reducir aún más el tamaño de fuente */
+    .hero-section h1 {
+        font-size: 1.75rem;
+    }
+    
+    /* Reducir padding del hero */
+    .hero-section {
+        min-height: 40vh;
+        padding: 2rem 0;
+    }
+    
+    /* Ajustar espaciado de cards */
+    .card {
+        margin-bottom: 1rem;
+    }
+    
+    /* Hacer botones más pequeños */
+    .btn {
+        padding: 6px 12px;
+        font-size: 0.875rem;
+    }
+    
+    /* Ajustar tabla para móviles */
+    .table {
+        font-size: 0.875rem;
+    }
+}
+
+/* ================================================================
+   UTILIDADES ADICIONALES
+   ================================================================ */
+
+/* Clase para ocultar elementos */
+.d-none {
+    display: none !important;
+}
+
+/* Clase para mostrar elementos */
+.d-block {
+    display: block !important;
+}
+
+/* Clase para elementos flexibles */
+.d-flex {
+    display: flex !important;
+}
+
+/* Centrar texto */
+.text-center {
+    text-align: center !important;
+}
+
+/* Texto en negrita */
+.fw-bold {
+    font-weight: bold !important;
+}
+
+/* Margen superior */
+.mt-4 {
+    margin-top: 1.5rem !important;
+}
+
+/* Margen inferior */
+.mb-4 {
+    margin-bottom: 1.5rem !important;
+}
+
+/* ================================================================
+   ESTILOS PERSONALIZADOS ADICIONALES
+   ================================================================ */
+
+/* Efecto de pulsación para botones importantes */
+.btn-pulse {
+    animation: pulse 2s infinite;
+}
+
+/* Animación de pulsación */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Efecto fade-in para elementos que aparecen */
+.fade-in {
+    animation: fadeIn 0.5s ease-in;
+}
+
+/* Animación fade-in */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+} 
+

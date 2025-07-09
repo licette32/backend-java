@@ -1,0 +1,445 @@
+# <!DOCTYPE html>
+# <html lang="es">
+# <head>
+#     <meta charset="UTF-8">
+#     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+#     <title>Prueba Completa - CarritoTech</title>
+#     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+#     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+# </head>
+# <body>
+#     <div class="container mt-4">
+#         <h1 class="text-center mb-4">🧪 Prueba Completa del Sistema</h1>
+        
+#         <!-- Estado Actual -->
+#         <div class="row mb-4">
+#             <div class="col-12">
+#                 <div class="card">
+#                     <div class="card-header">
+#                         <h5>Estado Actual del Sistema</h5>
+#                     </div>
+#                     <div class="card-body" id="estado-sistema">
+#                         <div class="text-center">
+#                             <div class="spinner-border" role="status">
+#                                 <span class="visually-hidden">Cargando estado...</span>
+#                             </div>
+#                         </div>
+#                     </div>
+#                 </div>
+#             </div>
+#         </div>
+        
+#         <!-- Pruebas de Usuario -->
+#         <div class="row">
+#             <div class="col-md-4">
+#                 <div class="card mb-4">
+#                     <div class="card-header bg-primary text-white">
+#                         <h5><i class="bi bi-person-check"></i> Pruebas de Login</h5>
+#                     </div>
+#                     <div class="card-body">
+#                         <div class="mb-3">
+#                             <label class="form-label">Email de prueba:</label>
+#                             <input type="email" id="emailLogin" class="form-control" value="test@test.com">
+#                         </div>
+#                         <button onclick="probarLogin()" class="btn btn-primary w-100 mb-2">
+#                             <i class="bi bi-box-arrow-in-right"></i> Probar Login
+#                         </button>
+#                         <button onclick="probarLogout()" class="btn btn-outline-secondary w-100">
+#                             <i class="bi bi-box-arrow-right"></i> Cerrar Sesión
+#                         </button>
+#                         <div id="resultadoLogin" class="mt-3"></div>
+#                     </div>
+#                 </div>
+#             </div>
+            
+#             <div class="col-md-4">
+#                 <div class="card mb-4">
+#                     <div class="card-header bg-success text-white">
+#                         <h5><i class="bi bi-cart"></i> Pruebas de Carrito</h5>
+#                     </div>
+#                     <div class="card-body">
+#                         <button onclick="agregarProductoCarrito()" class="btn btn-success w-100 mb-2">
+#                             <i class="bi bi-plus-circle"></i> Agregar Producto
+#                         </button>
+#                         <button onclick="verCarrito()" class="btn btn-outline-success w-100 mb-2">
+#                             <i class="bi bi-eye"></i> Ver Carrito
+#                         </button>
+#                         <button onclick="probarFinalizarCompra()" class="btn btn-danger w-100">
+#                             <i class="bi bi-check-circle"></i> Finalizar Compra
+#                         </button>
+#                         <div id="resultadoCarrito" class="mt-3"></div>
+#                     </div>
+#                 </div>
+#             </div>
+            
+#             <div class="col-md-4">
+#                 <div class="card mb-4">
+#                     <div class="card-header bg-warning text-dark">
+#                         <h5><i class="bi bi-gear"></i> Pruebas de API</h5>
+#                     </div>
+#                     <div class="card-body">
+#                         <button onclick="probarAPI()" class="btn btn-warning w-100 mb-2">
+#                             <i class="bi bi-cloud-check"></i> Probar API
+#                         </button>
+#                         <button onclick="crearDatosPrueba()" class="btn btn-outline-warning w-100 mb-2">
+#                             <i class="bi bi-database-add"></i> Crear Datos
+#                         </button>
+#                         <button onclick="limpiarLocalStorage()" class="btn btn-secondary w-100">
+#                             <i class="bi bi-trash"></i> Limpiar Cache
+#                         </button>
+#                         <div id="resultadoAPI" class="mt-3"></div>
+#                     </div>
+#                 </div>
+#             </div>
+#         </div>
+        
+#         <!-- Log de Actividades -->
+#         <div class="row">
+#             <div class="col-12">
+#                 <div class="card">
+#                     <div class="card-header">
+#                         <h5>📋 Log de Actividades</h5>
+#                         <button onclick="limpiarLog()" class="btn btn-sm btn-outline-secondary float-end">Limpiar</button>
+#                     </div>
+#                     <div class="card-body">
+#                         <div id="logActividades" style="height: 300px; overflow-y: auto; font-family: monospace; font-size: 0.9em;">
+#                             <div class="text-muted">Esperando actividades...</div>
+#                         </div>
+#                     </div>
+#                 </div>
+#             </div>
+#         </div>
+        
+#         <!-- Enlaces Rápidos -->
+#         <div class="row mt-4">
+#             <div class="col-12">
+#                 <div class="card">
+#                     <div class="card-header">
+#                         <h5>🔗 Enlaces Rápidos</h5>
+#                     </div>
+#                     <div class="card-body">
+#                         <a href="index.html" class="btn btn-outline-primary me-2">🏠 Inicio</a>
+#                         <a href="productos.html" class="btn btn-outline-primary me-2">🛍️ Productos</a>
+#                         <a href="carrito.html" class="btn btn-outline-primary me-2">🛒 Carrito</a>
+#                         <a href="admin.html" class="btn btn-outline-primary me-2">⚙️ Admin</a>
+#                         <a href="crear-datos-prueba.html" class="btn btn-outline-primary">📊 Crear Datos</a>
+#                     </div>
+#                 </div>
+#             </div>
+#         </div>
+#     </div>
+    
+#     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+#     <script src="js/api.js"></script>
+    
+#     <script>
+#         // Variables globales
+#         let carritoItems = JSON.parse(localStorage.getItem('carrito')) || [];
+#         let clienteActual = JSON.parse(localStorage.getItem('clienteActual')) || null;
+        
+#         // Función para agregar mensajes al log
+#         function log(mensaje, tipo = 'info') {
+#             const logDiv = document.getElementById('logActividades');
+#             const timestamp = new Date().toLocaleTimeString();
+#             const color = {
+#                 'info': 'text-info',
+#                 'success': 'text-success', 
+#                 'error': 'text-danger',
+#                 'warning': 'text-warning'
+#             }[tipo] || 'text-muted';
+            
+#             logDiv.innerHTML += `<div class="${color}">[${timestamp}] ${mensaje}</div>`;
+#             logDiv.scrollTop = logDiv.scrollHeight;
+#         }
+        
+#         // Cargar estado inicial
+#         document.addEventListener('DOMContentLoaded', async function() {
+#             await cargarEstadoSistema();
+            
+#             if (clienteActual) {
+#                 log(`Usuario ya logueado: ${clienteActual.nombre}`, 'info');
+#             }
+            
+#             if (carritoItems.length > 0) {
+#                 log(`Carrito tiene ${carritoItems.length} producto(s)`, 'info');
+#             }
+#         });
+        
+#         // Cargar estado del sistema
+#         async function cargarEstadoSistema() {
+#             try {
+#                 log('Cargando estado del sistema...', 'info');
+                
+#                 const [articulos, clientes, pedidos] = await Promise.all([
+#                     API.articulos.obtenerTodos(),
+#                     API.clientes.obtenerTodos(),
+#                     API.pedidos.obtenerTodos()
+#                 ]);
+                
+#                 const estadoDiv = document.getElementById('estado-sistema');
+#                 estadoDiv.innerHTML = `
+#                     <div class="row text-center">
+#                         <div class="col-md-3">
+#                             <h3 class="text-primary">${articulos.length}</h3>
+#                             <p>Artículos</p>
+#                         </div>
+#                         <div class="col-md-3">
+#                             <h3 class="text-success">${clientes.length}</h3>
+#                             <p>Clientes</p>
+#                         </div>
+#                         <div class="col-md-3">
+#                             <h3 class="text-warning">${pedidos.length}</h3>
+#                             <p>Pedidos</p>
+#                         </div>
+#                         <div class="col-md-3">
+#                             <h3 class="text-info">${carritoItems.length}</h3>
+#                             <p>En Carrito</p>
+#                         </div>
+#                     </div>
+#                 `;
+                
+#                 log('Estado del sistema cargado correctamente', 'success');
+                
+#             } catch (error) {
+#                 log('Error al cargar estado del sistema: ' + error.message, 'error');
+#                 document.getElementById('estado-sistema').innerHTML = 
+#                     '<div class="alert alert-danger">Error al cargar el estado del sistema</div>';
+#             }
+#         }
+        
+#         // Probar login
+#         async function probarLogin() {
+#             const email = document.getElementById('emailLogin').value;
+#             if (!email) {
+#                 document.getElementById('resultadoLogin').innerHTML = 
+#                     '<div class="alert alert-warning">Ingresa un email</div>';
+#                 return;
+#             }
+            
+#             try {
+#                 log(`Intentando login con: ${email}`, 'info');
+#                 const cliente = await API.clientes.buscarPorEmail(email);
+                
+#                 if (cliente) {
+#                     clienteActual = cliente;
+#                     localStorage.setItem('clienteActual', JSON.stringify(cliente));
+                    
+#                     document.getElementById('resultadoLogin').innerHTML = 
+#                         `<div class="alert alert-success">✅ Login exitoso!<br><strong>${cliente.nombre} ${cliente.apellido}</strong></div>`;
+                    
+#                     log(`Login exitoso: ${cliente.nombre} ${cliente.apellido}`, 'success');
+#                     await cargarEstadoSistema();
+#                 } else {
+#                     document.getElementById('resultadoLogin').innerHTML = 
+#                         '<div class="alert alert-danger">❌ Cliente no encontrado</div>';
+#                     log(`Cliente no encontrado: ${email}`, 'error');
+#                 }
+#             } catch (error) {
+#                 document.getElementById('resultadoLogin').innerHTML = 
+#                     `<div class="alert alert-danger">❌ Error: ${error.message}</div>`;
+#                 log(`Error en login: ${error.message}`, 'error');
+#             }
+#         }
+        
+#         // Probar logout
+#         function probarLogout() {
+#             clienteActual = null;
+#             localStorage.removeItem('clienteActual');
+#             document.getElementById('resultadoLogin').innerHTML = 
+#                 '<div class="alert alert-info">ℹ️ Sesión cerrada</div>';
+#             log('Sesión cerrada', 'info');
+#         }
+        
+#         // Agregar producto al carrito
+#         async function agregarProductoCarrito() {
+#             try {
+#                 log('Obteniendo productos disponibles...', 'info');
+#                 const articulos = await API.articulos.obtenerTodos();
+                
+#                 if (articulos.length > 0) {
+#                     const articulo = articulos[0]; // Tomar el primer producto
+#                     carritoItems.push({
+#                         ...articulo,
+#                         cantidad: 1
+#                     });
+#                     localStorage.setItem('carrito', JSON.stringify(carritoItems));
+                    
+#                     document.getElementById('resultadoCarrito').innerHTML = 
+#                         `<div class="alert alert-success">✅ Producto agregado:<br><strong>${articulo.nombre}</strong></div>`;
+                    
+#                     log(`Producto agregado al carrito: ${articulo.nombre}`, 'success');
+#                     await cargarEstadoSistema();
+#                 } else {
+#                     document.getElementById('resultadoCarrito').innerHTML = 
+#                         '<div class="alert alert-warning">⚠️ No hay productos disponibles</div>';
+#                     log('No hay productos disponibles', 'warning');
+#                 }
+#             } catch (error) {
+#                 document.getElementById('resultadoCarrito').innerHTML = 
+#                     `<div class="alert alert-danger">❌ Error: ${error.message}</div>`;
+#                 log(`Error al agregar producto: ${error.message}`, 'error');
+#             }
+#         }
+        
+#         // Ver carrito
+#         function verCarrito() {
+#             if (carritoItems.length === 0) {
+#                 document.getElementById('resultadoCarrito').innerHTML = 
+#                     '<div class="alert alert-info">ℹ️ El carrito está vacío</div>';
+#                 log('Carrito consultado: vacío', 'info');
+#                 return;
+#             }
+            
+#             const total = carritoItems.reduce((sum, item) => sum + (item.precio * item.cantidad), 0);
+            
+#             document.getElementById('resultadoCarrito').innerHTML = `
+#                 <div class="alert alert-info">
+#                     <strong>🛒 Carrito (${carritoItems.length} productos)</strong><br>
+#                     Total: ${API.utils.formatearMoneda(total)}
+#                 </div>
+#             `;
+            
+#             log(`Carrito consultado: ${carritoItems.length} productos, total: $${total}`, 'info');
+#         }
+        
+#         // Probar finalizar compra
+#         async function probarFinalizarCompra() {
+#             if (!clienteActual) {
+#                 document.getElementById('resultadoCarrito').innerHTML = 
+#                     '<div class="alert alert-warning">⚠️ Debes hacer login primero</div>';
+#                 log('Intento de compra sin login', 'warning');
+#                 return;
+#             }
+            
+#             if (carritoItems.length === 0) {
+#                 document.getElementById('resultadoCarrito').innerHTML = 
+#                     '<div class="alert alert-warning">⚠️ El carrito está vacío</div>';
+#                 log('Intento de compra con carrito vacío', 'warning');
+#                 return;
+#             }
+            
+#             try {
+#                 log('Iniciando proceso de compra...', 'info');
+                
+#                 // Crear el pedido
+#                 const pedido = {
+#                     emailCliente: clienteActual.email,
+#                     observaciones: 'Pedido de prueba desde test completo'
+#                 };
+                
+#                 log('Creando pedido...', 'info');
+#                 const nuevoPedido = await API.pedidos.crear(pedido);
+#                 log(`Pedido creado con ID: ${nuevoPedido.id}`, 'success');
+                
+#                 // Agregar artículos al pedido
+#                 for (const item of carritoItems) {
+#                     log(`Agregando artículo: ${item.nombre} (cantidad: ${item.cantidad})`, 'info');
+#                     await API.pedidos.agregarArticulo(nuevoPedido.id, item.id, item.cantidad);
+#                 }
+                
+#                 // Limpiar carrito
+#                 carritoItems = [];
+#                 localStorage.removeItem('carrito');
+                
+#                 document.getElementById('resultadoCarrito').innerHTML = 
+#                     `<div class="alert alert-success">✅ ¡Compra realizada con éxito!<br><strong>Pedido #${nuevoPedido.id}</strong></div>`;
+                
+#                 log(`Compra finalizada exitosamente. Pedido #${nuevoPedido.id}`, 'success');
+#                 await cargarEstadoSistema();
+                
+#             } catch (error) {
+#                 document.getElementById('resultadoCarrito').innerHTML = 
+#                     `<div class="alert alert-danger">❌ Error al finalizar compra: ${error.message}</div>`;
+#                 log(`Error al finalizar compra: ${error.message}`, 'error');
+#             }
+#         }
+        
+#         // Probar API
+#         async function probarAPI() {
+#             try {
+#                 log('Probando conectividad con la API...', 'info');
+                
+#                 const response = await fetch('/api/articulos');
+#                 if (response.ok) {
+#                     const articulos = await response.json();
+#                     document.getElementById('resultadoAPI').innerHTML = 
+#                         `<div class="alert alert-success">✅ API funcionando<br>Productos: ${articulos.length}</div>`;
+#                     log(`API funcionando correctamente. ${articulos.length} productos encontrados`, 'success');
+#                 } else {
+#                     throw new Error(`HTTP ${response.status}`);
+#                 }
+#             } catch (error) {
+#                 document.getElementById('resultadoAPI').innerHTML = 
+#                     `<div class="alert alert-danger">❌ Error en API: ${error.message}</div>`;
+#                 log(`Error en API: ${error.message}`, 'error');
+#             }
+#         }
+        
+#         // Crear datos de prueba
+#         async function crearDatosPrueba() {
+#             try {
+#                 log('Creando datos de prueba...', 'info');
+                
+#                 // Crear cliente de prueba
+#                 try {
+#                     const cliente = {
+#                         nombre: "Usuario",
+#                         apellido: "Prueba", 
+#                         email: "test@test.com",
+#                         dni: "12345678",
+#                         telefono: "1234567890",
+#                         direccion: "Dirección de prueba"
+#                     };
+#                     await API.clientes.crear(cliente);
+#                     log('Cliente de prueba creado', 'success');
+#                 } catch (e) {
+#                     log('Cliente ya existe (OK)', 'info');
+#                 }
+                
+#                 // Crear artículo de prueba
+#                 try {
+#                     const articulo = {
+#                         nombre: "Producto de Prueba",
+#                         descripcion: "Descripción del producto de prueba",
+#                         precio: 25000,
+#                         stock: 100,
+#                         activo: true
+#                     };
+#                     await API.articulos.crear(articulo);
+#                     log('Artículo de prueba creado', 'success');
+#                 } catch (e) {
+#                     log('Error al crear artículo: ' + e.message, 'warning');
+#                 }
+                
+#                 document.getElementById('resultadoAPI').innerHTML = 
+#                     '<div class="alert alert-success">✅ Datos de prueba creados</div>';
+                
+#                 await cargarEstadoSistema();
+                
+#             } catch (error) {
+#                 document.getElementById('resultadoAPI').innerHTML = 
+#                     `<div class="alert alert-danger">❌ Error: ${error.message}</div>`;
+#                 log(`Error al crear datos: ${error.message}`, 'error');
+#             }
+#         }
+        
+#         // Limpiar localStorage
+#         function limpiarLocalStorage() {
+#             localStorage.clear();
+#             clienteActual = null;
+#             carritoItems = [];
+#             document.getElementById('resultadoAPI').innerHTML = 
+#                 '<div class="alert alert-info">ℹ️ Cache limpiado</div>';
+#             log('Cache del navegador limpiado', 'info');
+#             cargarEstadoSistema();
+#         }
+        
+#         // Limpiar log
+#         function limpiarLog() {
+#             document.getElementById('logActividades').innerHTML = 
+#                 '<div class="text-muted">Log limpiado...</div>';
+#         }
+#     </script>
+# </body>
+# </html> 
+

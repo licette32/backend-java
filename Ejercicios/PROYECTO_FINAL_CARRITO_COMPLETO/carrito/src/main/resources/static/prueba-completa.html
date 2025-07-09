@@ -1,0 +1,166 @@
+# <!DOCTYPE html>
+# <html lang="es">
+# <head>
+#     <meta charset="UTF-8">
+#     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+#     <title>Prueba Completa del Sistema</title>
+#     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+# </head>
+# <body>
+#     <div class="container mt-5">
+#         <h1>Prueba Completa del Sistema</h1>
+        
+#         <!-- Probar Login -->
+#         <div class="card mb-4">
+#             <div class="card-header">
+#                 <h5>Probar Login</h5>
+#             </div>
+#             <div class="card-body">
+#                 <input type="email" id="testEmail" class="form-control mb-3" value="test@test.com" placeholder="Email">
+#                 <button onclick="testLogin()" class="btn btn-primary">Probar Login</button>
+#                 <div id="loginResult" class="mt-3"></div>
+#             </div>
+#         </div>
+        
+#         <!-- Probar Carrito -->
+#         <div class="card mb-4">
+#             <div class="card-header">
+#                 <h5>Probar Carrito y Compra</h5>
+#             </div>
+#             <div class="card-body">
+#                 <button onclick="addProductToCart()" class="btn btn-success me-2">Agregar Producto al Carrito</button>
+#                 <button onclick="testPurchase()" class="btn btn-danger">Finalizar Compra</button>
+#                 <div id="cartResult" class="mt-3"></div>
+#             </div>
+#         </div>
+        
+#         <!-- Estado del Sistema -->
+#         <div class="card">
+#             <div class="card-header">
+#                 <h5>Estado del Sistema</h5>
+#             </div>
+#             <div class="card-body" id="systemStatus">
+#                 <button onclick="checkSystemStatus()" class="btn btn-info">Verificar Estado</button>
+#             </div>
+#         </div>
+#     </div>
+    
+#     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+#     <script src="js/api.js"></script>
+    
+#     <script>
+#         let carritoItems = JSON.parse(localStorage.getItem('carrito')) || [];
+#         let clienteActual = JSON.parse(localStorage.getItem('clienteActual')) || null;
+        
+#         async function testLogin() {
+#             const email = document.getElementById('testEmail').value;
+#             try {
+#                 const cliente = await API.clientes.buscarPorEmail(email);
+#                 if (cliente) {
+#                     clienteActual = cliente;
+#                     localStorage.setItem('clienteActual', JSON.stringify(cliente));
+#                     document.getElementById('loginResult').innerHTML = 
+#                         `<div class="alert alert-success">✅ Login exitoso: ${cliente.nombre}</div>`;
+#                 } else {
+#                     document.getElementById('loginResult').innerHTML = 
+#                         '<div class="alert alert-danger">❌ Cliente no encontrado</div>';
+#                 }
+#             } catch (error) {
+#                 document.getElementById('loginResult').innerHTML = 
+#                     `<div class="alert alert-danger">❌ Error: ${error.message}</div>`;
+#             }
+#         }
+        
+#         async function addProductToCart() {
+#             try {
+#                 const productos = await API.articulos.obtenerTodos();
+#                 if (productos.length > 0) {
+#                     const producto = productos[0];
+#                     carritoItems.push({...producto, cantidad: 1});
+#                     localStorage.setItem('carrito', JSON.stringify(carritoItems));
+#                     document.getElementById('cartResult').innerHTML = 
+#                         `<div class="alert alert-success">✅ Producto agregado: ${producto.nombre}</div>`;
+#                 } else {
+#                     document.getElementById('cartResult').innerHTML = 
+#                         '<div class="alert alert-warning">⚠️ No hay productos</div>';
+#                 }
+#             } catch (error) {
+#                 document.getElementById('cartResult').innerHTML = 
+#                     `<div class="alert alert-danger">❌ Error: ${error.message}</div>`;
+#             }
+#         }
+        
+#         async function testPurchase() {
+#             if (!clienteActual) {
+#                 document.getElementById('cartResult').innerHTML = 
+#                     '<div class="alert alert-warning">⚠️ Debes hacer login primero</div>';
+#                 return;
+#             }
+            
+#             if (carritoItems.length === 0) {
+#                 document.getElementById('cartResult').innerHTML = 
+#                     '<div class="alert alert-warning">⚠️ Carrito vacío</div>';
+#                 return;
+#             }
+            
+#             try {
+#                 const pedido = {
+#                     emailCliente: clienteActual.email,
+#                     observaciones: 'Pedido de prueba'
+#                 };
+                
+#                 const nuevoPedido = await API.pedidos.crear(pedido);
+                
+#                 for (const item of carritoItems) {
+#                     await API.pedidos.agregarArticulo(nuevoPedido.id, item.id, item.cantidad);
+#                 }
+                
+#                 carritoItems = [];
+#                 localStorage.removeItem('carrito');
+                
+#                 document.getElementById('cartResult').innerHTML = 
+#                     `<div class="alert alert-success">✅ Compra exitosa! Pedido #${nuevoPedido.id}</div>`;
+#             } catch (error) {
+#                 document.getElementById('cartResult').innerHTML = 
+#                     `<div class="alert alert-danger">❌ Error en compra: ${error.message}</div>`;
+#             }
+#         }
+        
+#         async function checkSystemStatus() {
+#             try {
+#                 const [articulos, clientes, pedidos] = await Promise.all([
+#                     API.articulos.obtenerTodos(),
+#                     API.clientes.obtenerTodos(), 
+#                     API.pedidos.obtenerTodos()
+#                 ]);
+                
+#                 document.getElementById('systemStatus').innerHTML = `
+#                     <div class="row">
+#                         <div class="col-md-3"><strong>Artículos:</strong> ${articulos.length}</div>
+#                         <div class="col-md-3"><strong>Clientes:</strong> ${clientes.length}</div>
+#                         <div class="col-md-3"><strong>Pedidos:</strong> ${pedidos.length}</div>
+#                         <div class="col-md-3"><strong>En Carrito:</strong> ${carritoItems.length}</div>
+#                     </div>
+#                 `;
+#             } catch (error) {
+#                 document.getElementById('systemStatus').innerHTML = 
+#                     `<div class="alert alert-danger">❌ Error: ${error.message}</div>`;
+#             }
+#         }
+        
+#         // Verificar estado inicial
+#         document.addEventListener('DOMContentLoaded', function() {
+#             if (clienteActual) {
+#                 document.getElementById('loginResult').innerHTML = 
+#                     `<div class="alert alert-info">Ya logueado: ${clienteActual.nombre}</div>`;
+#             }
+#             if (carritoItems.length > 0) {
+#                 document.getElementById('cartResult').innerHTML = 
+#                     `<div class="alert alert-info">Carrito: ${carritoItems.length} productos</div>`;
+#             }
+#             checkSystemStatus();
+#         });
+#     </script>
+# </body>
+# </html> 
+

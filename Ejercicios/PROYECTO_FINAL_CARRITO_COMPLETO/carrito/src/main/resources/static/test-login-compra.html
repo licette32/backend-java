@@ -1,0 +1,358 @@
+# <!DOCTYPE html>
+# <html lang="es">
+# <head>
+#     <meta charset="UTF-8">
+#     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+#     <title>Test Login y Compra - CarritoTech</title>
+#     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+#     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
+#     <style>
+#         body { background-color: #f8f9fa; }
+#         .test-section { background: white; border-radius: 10px; margin: 20px 0; padding: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+#         .btn-test { margin: 5px; }
+#         .result { margin-top: 10px; padding: 10px; border-radius: 5px; }
+#         .success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+#         .error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+#         .info { background-color: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+#         .cart-item { background: #f8f9fa; margin: 5px 0; padding: 10px; border-radius: 5px; }
+#     </style>
+# </head>
+# <body>
+#     <div class="container mt-4">
+#         <div class="row">
+#             <div class="col-12">
+#                 <h1 class="text-center mb-4">
+#                     <i class="bi bi-cart3"></i> Test Login y Compra
+#                 </h1>
+#             </div>
+#         </div>
+
+#         <!-- Estado de usuario -->
+#         <div class="test-section">
+#             <h3><i class="bi bi-person-circle"></i> Estado de Usuario</h3>
+#             <div id="userStatus" class="result info">
+#                 <strong>Usuario:</strong> <span id="currentUser">No logueado</span>
+#             </div>
+#         </div>
+
+#         <!-- Test de Login -->
+#         <div class="test-section">
+#             <h3><i class="bi bi-box-arrow-in-right"></i> Test de Login</h3>
+#             <div class="row">
+#                 <div class="col-md-6">
+#                     <div class="mb-3">
+#                         <label for="testEmail" class="form-label">Email de prueba:</label>
+#                         <input type="email" class="form-control" id="testEmail" value="test@example.com">
+#                     </div>
+#                     <button class="btn btn-primary btn-test" onclick="testLogin()">
+#                         <i class="bi bi-play-circle"></i> Test Login
+#                     </button>
+#                     <button class="btn btn-secondary btn-test" onclick="testLogout()">
+#                         <i class="bi bi-box-arrow-right"></i> Logout
+#                     </button>
+#                 </div>
+#                 <div class="col-md-6">
+#                     <div id="loginResult" class="result"></div>
+#                 </div>
+#             </div>
+#         </div>
+
+#         <!-- Test de Carrito -->
+#         <div class="test-section">
+#             <h3><i class="bi bi-cart2"></i> Test de Carrito</h3>
+#             <button class="btn btn-info btn-test" onclick="loadProducts()">
+#                 <i class="bi bi-download"></i> Cargar Productos
+#             </button>
+#             <button class="btn btn-success btn-test" onclick="addTestProduct()">
+#                 <i class="bi bi-plus-circle"></i> Agregar Producto Test
+#             </button>
+#             <button class="btn btn-warning btn-test" onclick="showCart()">
+#                 <i class="bi bi-cart-check"></i> Ver Carrito
+#             </button>
+#             <button class="btn btn-danger btn-test" onclick="clearCart()">
+#                 <i class="bi bi-trash"></i> Limpiar Carrito
+#             </button>
+            
+#             <div id="cartResult" class="result"></div>
+#             <div id="cartItems"></div>
+#         </div>
+
+#         <!-- Test de Compra -->
+#         <div class="test-section">
+#             <h3><i class="bi bi-credit-card"></i> Test de Finalizar Compra</h3>
+#             <button class="btn btn-success btn-test" onclick="testCheckout()">
+#                 <i class="bi bi-check-circle"></i> Finalizar Compra
+#             </button>
+#             <div id="checkoutResult" class="result"></div>
+#         </div>
+
+#         <!-- Crear datos de prueba -->
+#         <div class="test-section">
+#             <h3><i class="bi bi-database"></i> Crear Datos de Prueba</h3>
+#             <button class="btn btn-primary btn-test" onclick="createTestClient()">
+#                 <i class="bi bi-person-plus"></i> Crear Cliente Test
+#             </button>
+#             <button class="btn btn-primary btn-test" onclick="createTestProducts()">
+#                 <i class="bi bi-box-seam"></i> Crear Productos Test
+#             </button>
+#             <div id="createResult" class="result"></div>
+#         </div>
+#     </div>
+
+#     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+#     <script src="js/api.js"></script>
+#     <script>
+#         let authManager = null;
+#         let carritoItems = JSON.parse(localStorage.getItem('carrito')) || [];
+
+#         document.addEventListener('DOMContentLoaded', function() {
+#             authManager = new AuthManager();
+#             updateUserStatus();
+#             showCart();
+#         });
+
+#         function updateUserStatus() {
+#             const userSpan = document.getElementById('currentUser');
+#             if (authManager && authManager.isAuthenticated()) {
+#                 const user = authManager.getCurrentUser();
+#                 userSpan.textContent = `${user.nombre} (${user.email})`;
+#             } else {
+#                 userSpan.textContent = 'No logueado';
+#             }
+#         }
+
+#         async function testLogin() {
+#             const email = document.getElementById('testEmail').value;
+#             const resultDiv = document.getElementById('loginResult');
+            
+#             try {
+#                 resultDiv.innerHTML = '<i class="bi bi-hourglass-split"></i> Intentando login...';
+#                 resultDiv.className = 'result info';
+                
+#                 await authManager.login(email);
+                
+#                 resultDiv.innerHTML = '<i class="bi bi-check-circle"></i> Login exitoso!';
+#                 resultDiv.className = 'result success';
+#                 updateUserStatus();
+                
+#             } catch (error) {
+#                 resultDiv.innerHTML = `<i class="bi bi-exclamation-triangle"></i> Error: ${error.message}`;
+#                 resultDiv.className = 'result error';
+#             }
+#         }
+
+#         function testLogout() {
+#             authManager.logout();
+#             updateUserStatus();
+#             document.getElementById('loginResult').innerHTML = '<i class="bi bi-box-arrow-right"></i> Sesión cerrada';
+#             document.getElementById('loginResult').className = 'result info';
+#         }
+
+#         async function loadProducts() {
+#             const resultDiv = document.getElementById('cartResult');
+#             try {
+#                 resultDiv.innerHTML = '<i class="bi bi-hourglass-split"></i> Cargando productos...';
+#                 resultDiv.className = 'result info';
+                
+#                 const productos = await API.articulos.obtenerActivos();
+                
+#                 resultDiv.innerHTML = `<i class="bi bi-check-circle"></i> ${productos.length} productos cargados`;
+#                 resultDiv.className = 'result success';
+                
+#                 window.productosDisponibles = productos;
+                
+#             } catch (error) {
+#                 resultDiv.innerHTML = `<i class="bi bi-exclamation-triangle"></i> Error al cargar productos: ${error.message}`;
+#                 resultDiv.className = 'result error';
+#             }
+#         }
+
+#         function addTestProduct() {
+#             const resultDiv = document.getElementById('cartResult');
+            
+#             if (!window.productosDisponibles || window.productosDisponibles.length === 0) {
+#                 resultDiv.innerHTML = '<i class="bi bi-exclamation-triangle"></i> Primero carga los productos';
+#                 resultDiv.className = 'result error';
+#                 return;
+#             }
+            
+#             const producto = window.productosDisponibles[0];
+            
+#             const existingItem = carritoItems.find(item => item.id === producto.id);
+            
+#             if (existingItem) {
+#                 existingItem.cantidad += 1;
+#             } else {
+#                 carritoItems.push({
+#                     ...producto,
+#                     cantidad: 1
+#                 });
+#             }
+            
+#             localStorage.setItem('carrito', JSON.stringify(carritoItems));
+            
+#             resultDiv.innerHTML = `<i class="bi bi-check-circle"></i> Producto "${producto.nombre}" agregado al carrito`;
+#             resultDiv.className = 'result success';
+            
+#             showCart();
+#         }
+
+#         function showCart() {
+#             const cartItemsDiv = document.getElementById('cartItems');
+            
+#             if (carritoItems.length === 0) {
+#                 cartItemsDiv.innerHTML = '<div class="result info">El carrito está vacío</div>';
+#                 return;
+#             }
+            
+#             let html = '<h5>Productos en el carrito:</h5>';
+#             let total = 0;
+            
+#             carritoItems.forEach(item => {
+#                 const subtotal = item.precio * item.cantidad;
+#                 total += subtotal;
+#                 html += `
+#                     <div class="cart-item">
+#                         <strong>${item.nombre}</strong><br>
+#                         Cantidad: ${item.cantidad}<br>
+#                         Precio: ${API.utils.formatearMoneda(item.precio)}<br>
+#                         Subtotal: ${API.utils.formatearMoneda(subtotal)}
+#                     </div>
+#                 `;
+#             });
+            
+#             html += `<div class="result success"><strong>Total: ${API.utils.formatearMoneda(total)}</strong></div>`;
+            
+#             cartItemsDiv.innerHTML = html;
+#         }
+
+#         function clearCart() {
+#             carritoItems = [];
+#             localStorage.setItem('carrito', JSON.stringify(carritoItems));
+#             showCart();
+#             document.getElementById('cartResult').innerHTML = '<i class="bi bi-trash"></i> Carrito limpiado';
+#             document.getElementById('cartResult').className = 'result info';
+#         }
+
+#         async function testCheckout() {
+#             const resultDiv = document.getElementById('checkoutResult');
+            
+#             try {
+#                 resultDiv.innerHTML = '<i class="bi bi-hourglass-split"></i> Procesando compra...';
+#                 resultDiv.className = 'result info';
+                
+#                 // Verificar autenticación
+#                 if (!authManager || !authManager.isAuthenticated()) {
+#                     throw new Error('Debes iniciar sesión para realizar una compra');
+#                 }
+                
+#                 if (carritoItems.length === 0) {
+#                     throw new Error('Tu carrito está vacío');
+#                 }
+                
+#                 // Obtener usuario actual
+#                 const usuario = authManager.getCurrentUser();
+                
+#                 // Crear el pedido
+#                 const pedido = {
+#                     emailCliente: usuario.email,
+#                     observaciones: 'Pedido de prueba desde test'
+#                 };
+                
+#                 const nuevoPedido = await API.pedidos.crear(pedido);
+                
+#                 // Agregar cada artículo al pedido
+#                 for (const item of carritoItems) {
+#                     await API.pedidos.agregarArticulo(nuevoPedido.id, item.id, item.cantidad);
+#                 }
+                
+#                 // Actualizar el total del pedido
+#                 await API.pedidos.actualizarTotal(nuevoPedido.id);
+                
+#                 // Limpiar carrito
+#                 carritoItems = [];
+#                 localStorage.setItem('carrito', JSON.stringify(carritoItems));
+#                 showCart();
+                
+#                 resultDiv.innerHTML = `<i class="bi bi-check-circle"></i> ¡Compra realizada con éxito! Pedido #${nuevoPedido.id}`;
+#                 resultDiv.className = 'result success';
+                
+#             } catch (error) {
+#                 resultDiv.innerHTML = `<i class="bi bi-exclamation-triangle"></i> Error: ${error.message}`;
+#                 resultDiv.className = 'result error';
+#             }
+#         }
+
+#         async function createTestClient() {
+#             const resultDiv = document.getElementById('createResult');
+            
+#             try {
+#                 resultDiv.innerHTML = '<i class="bi bi-hourglass-split"></i> Creando cliente...';
+#                 resultDiv.className = 'result info';
+                
+#                 const cliente = {
+#                     nombre: 'Test',
+#                     apellido: 'Usuario',
+#                     email: 'test@example.com',
+#                     dni: '12345678',
+#                     telefono: '123456789',
+#                     direccion: 'Calle Test 123'
+#                 };
+                
+#                 const nuevoCliente = await API.clientes.crear(cliente);
+                
+#                 resultDiv.innerHTML = `<i class="bi bi-check-circle"></i> Cliente creado: ${nuevoCliente.nombre} (${nuevoCliente.email})`;
+#                 resultDiv.className = 'result success';
+                
+#             } catch (error) {
+#                 resultDiv.innerHTML = `<i class="bi bi-exclamation-triangle"></i> Error: ${error.message}`;
+#                 resultDiv.className = 'result error';
+#             }
+#         }
+
+#         async function createTestProducts() {
+#             const resultDiv = document.getElementById('createResult');
+            
+#             try {
+#                 resultDiv.innerHTML = '<i class="bi bi-hourglass-split"></i> Creando productos...';
+#                 resultDiv.className = 'result info';
+                
+#                 const productos = [
+#                     {
+#                         nombre: 'Laptop Test',
+#                         descripcion: 'Laptop de prueba para testing',
+#                         precio: 150000,
+#                         stock: 10,
+#                         activo: true
+#                     },
+#                     {
+#                         nombre: 'Mouse Test',
+#                         descripcion: 'Mouse de prueba para testing',
+#                         precio: 2500,
+#                         stock: 50,
+#                         activo: true
+#                     }
+#                 ];
+                
+#                 let creados = 0;
+#                 for (const producto of productos) {
+#                     try {
+#                         await API.articulos.crear(producto);
+#                         creados++;
+#                     } catch (error) {
+#                         console.log('Producto ya existe o error:', error.message);
+#                     }
+#                 }
+                
+#                 resultDiv.innerHTML = `<i class="bi bi-check-circle"></i> ${creados} productos creados`;
+#                 resultDiv.className = 'result success';
+                
+#             } catch (error) {
+#                 resultDiv.innerHTML = `<i class="bi bi-exclamation-triangle"></i> Error: ${error.message}`;
+#                 resultDiv.className = 'result error';
+#             }
+#         }
+#     </script>
+# </body>
+# </html> 
+
